@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,8 +6,10 @@ namespace Core
 {
     public class Client : Person
     {
-        public Client(int idClient, string phone, string name, string surname, string patronyomic,string sex)
-        : base(name, surname, patronyomic, sex)
+        [Obsolete("For ORM only", true)]
+        protected Client () { }
+        public Client(int idClient, string phone, string name, string surname, string patronyomic, string sex)
+        : base(idClient, name, surname, patronyomic, sex)
         {
             this.IdClient = idClient;
             this.Phone = phone ?? throw new ArgumentNullException(nameof(phone));
@@ -17,15 +19,18 @@ namespace Core
             this.Sex = sex ?? throw new ArgumentNullException(nameof(sex));
         }
 
-        public int IdClient { get; protected set; }
+        public virtual int IdClient { get; protected set; }
 
-        public string Phone { get; protected set; }
+        public virtual string Phone { get; protected set; }
 
-        
+        public virtual ISet<Person> Person { get; protected set; } = new HashSet<Person>();
 
         public override string ToString()
         {
             return $"{this.Surname},{this.Name},{this.Patronyomic},{this.Sex},{this.Phone}".Trim();
         }
+
+        public virtual ISet<Sell> Sells { get; protected set; } = new HashSet<Sell>();
     }
 }
+
