@@ -5,7 +5,7 @@ namespace Core.Tests
     [TestFixture]
     public class Tests
     {
-        [TestCase(1, "89622461234", "Дмитрий", "Антонов", "Игоревич", "М")]
+        [TestCase(1, "89622461234", "Р”РјРёС‚СЂРёР№", "РђРЅС‚РѕРЅРѕРІ", "РРіРѕСЂРµРІРёС‡", "Рњ")]
         [TestCase(1, "", "", "", "", "")]
         public void TestClient(int idClient, string phone, string name, string surname, string patronyomic, string sex)
         {
@@ -26,7 +26,7 @@ namespace Core.Tests
         }
 
         [Test]
-        [TestCase(1, 40000, "Менеджер", "Олег", "Газанов", "Васильев", "М")]
+        [TestCase(1, 40000, "РњРµРЅРµРґР¶РµСЂ", "РћР»РµРі", "Р“Р°Р·Р°РЅРѕРІ", "Р’Р°СЃРёР»СЊРµРІ", "Рњ")]
         [TestCase(1, 0, "", "", "", "", "")]
         public void TestStaff(int idStaff, decimal salary, string position, string name, string surname, string patronyomic, string sex)
         {
@@ -47,19 +47,19 @@ namespace Core.Tests
         }
 
         [Test]
-        [TestCase("a7j8k9h2", "Honda NSX", "Red", 6000000)]
-        [TestCase("", "", "", 0)]
-        public void TestCar(string vin, string model, string color, decimal price)
+        [TestCase(2, "a7j8k9h2", "Honda NSX", "Red", 6000000)]
+        [TestCase(0, "", "", "", 0)]
+        public void TestCar(int id, string vin, string model, string color, decimal price)
         {
             try
             {
                 //arrange
-                var car = new Car(vin, model, color, price);
+                var car = new Car(id, vin, model, color, price);
 
                 //act
                 var result = car.ToString();
                 //Assert
-                Assert.AreEqual($"{vin}, {model}, {color}, {price}", result);
+                Assert.AreEqual($"{id}, {vin}, {model}, {color}, {price}", result);
             }
             catch (System.ArgumentOutOfRangeException)
             {
@@ -71,16 +71,16 @@ namespace Core.Tests
         public void TestSell()
         {
             //arrange
-            var sell = new Sell(new Car("a7j8k9h2", "Honda NSX", "Red", 6000000), new Staff(1, 40000, "Менеджер", "Олег", "Газанов", "Васильев", "М")
-            , new Client(1, "89622461234", "Дмитрий", "Антонов", "Игоревич", "М"), 1, new System.DateTime(2021, 12, 11));
+            var sell = new Sell(new Car(2, "a7j8k9h2", "Honda NSX", "Red", 6000000), new Staff(1, 40000, "РњРµРЅРµРґР¶РµСЂ", "РћР»РµРі", "Р“Р°Р·Р°РЅРѕРІ", "Р’Р°СЃРёР»СЊРµРІ", "Рњ")
+            , new Client(1, "89622461234", "Р”РјРёС‚СЂРёР№", "РђРЅС‚РѕРЅРѕРІ", "РРіРѕСЂРµРІРёС‡", "Рњ"), 1, new System.DateTime(2021, 12, 11));
 
             //act
             var result = sell.ToString();
             //Assert
-            Assert.AreEqual($"Продавец:{new Staff(1, 40000, "Менеджер", "Олег", "Газанов", "Васильев", "М")} " +
-                $"Покупатель:{new Client(1,"89622461234","Дмитрий","Антонов","Игоревич","М")} " +
-                $"Машина:{new Car("a7j8k9h2", "Honda NSX", "Red", 6000000)} " +
-                $"Договор:{1}, {new System.DateTime(2021, 12, 11)}", result);
+            Assert.AreEqual($"РџСЂРѕРґР°РІРµС†:{new Staff(1, 40000, "РњРµРЅРµРґР¶РµСЂ", "РћР»РµРі", "Р“Р°Р·Р°РЅРѕРІ", "Р’Р°СЃРёР»СЊРµРІ", "Рњ")} " +
+                $"РџРѕРєСѓРїР°С‚РµР»СЊ:{new Client(1, "89622461234", "Р”РјРёС‚СЂРёР№", "РђРЅС‚РѕРЅРѕРІ", "РРіРѕСЂРµРІРёС‡", "Рњ")} " +
+                $"РњР°С€РёРЅР°:{new Car(2, "a7j8k9h2", "Honda NSX", "Red", 6000000)} " +
+                $"Р”РѕРіРѕРІРѕСЂ:{1}, {new System.DateTime(2021, 12, 11)}", result);
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace Core.Tests
             try
             {
                 //arrange
-                var sell = new Sell(new Car("", "", "", 0),new Staff(1, 0, "", "", "", "", ""),new Client(1, "", "", "", "", ""),
+                var sell = new Sell(new Car(0, "", "", "", 0), new Staff(1, 0, "", "", "", "", ""), new Client(1, "", "", "", "", ""),
                     1, new System.DateTime(2021, 12, 11));
                 //act
                 var result = sell.ToString();
